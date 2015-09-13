@@ -1,7 +1,6 @@
 {
     "name": "revinate/php-getter-setter",
     "description": "PHP library to simplify getting and setting values in arrays and objects.",
-    "type": "library",
     "autoload": {
         "psr-4": {
             "Revinate\\GetterSetter\\": "src",
