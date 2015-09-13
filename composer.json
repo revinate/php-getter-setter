@@ -1,0 +1,25 @@
+{
+    "name": "revinate/php-getter-setter",
+    "description": "PHP library to simplify getting and setting values in arrays and objects.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Revinate\\GetterSetter\\": "src",
+            "Revinate\\GetterSetter\\test\\": "test"
+        },
+        "files": [ "src/getValueFunctions.php", "src/setValueFunctions.php" ]
+    },
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jason Dent",
+            "email": "jason@revinate.com"
+        }
+    ]
+}
