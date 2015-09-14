@@ -8,11 +8,14 @@
 
 namespace Revinate\GetterSetter;
 
+use Revinate\GetterSetter\util as util;
+
 /**
  * @param array|object $doc
  * @param string       $fieldName
  * @param null|mixed   $default
  * @return mixed|null
+ * @throws \Exception
  */
 function getValue($doc, $fieldName, $default = null) {
     if ($doc instanceof GetSetInterface) {
@@ -32,14 +35,10 @@ function getValue($doc, $fieldName, $default = null) {
         }
 
         // Try using getters
+        $fieldNameCamel = util\toCamelCase($fieldName);
         $getters = array(
-            $fieldName, 'get'.$fieldName, 'is'.$fieldName,
+            $fieldName, 'get'.$fieldNameCamel, 'is'.$fieldNameCamel, 'has'.$fieldNameCamel, $fieldNameCamel
         );
-        $fieldNameNoUnderscores = str_replace('_', '', $fieldName);
-        if ($fieldName != $fieldNameNoUnderscores) {
-            $_getters = array($fieldNameNoUnderscores, 'get'.$fieldNameNoUnderscores, 'is'.$fieldNameNoUnderscores);
-            $getters = array_merge($getters, $_getters);
-        }
         foreach ($getters as $methodName) {
             if (method_exists($doc, $methodName)) {
                 return $doc->{$methodName}();

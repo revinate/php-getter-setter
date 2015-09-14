@@ -39,14 +39,10 @@ function setValue($doc, $fieldName, $value) {
         }
 
         // Try using setters
+        $fieldNameCamel = util\toCamelCase($fieldName);
         $setters = array(
-            'set'.$fieldName, $fieldName,
+            'set'.$fieldNameCamel, $fieldName,
         );
-        $fieldNameNoUnderscores = str_replace('_', '', $fieldName);
-        if ($fieldName != $fieldNameNoUnderscores) {
-            $_setters = array('set'.$fieldNameNoUnderscores, $fieldNameNoUnderscores, );
-            $setters = array_merge($setters, $_setters);
-        }
         foreach ($setters as $methodName) {
             if (method_exists($doc, $methodName)) {
                 $doc->{$methodName}($value);

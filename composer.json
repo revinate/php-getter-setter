@@ -6,7 +6,7 @@
             "Revinate\\GetterSetter\\": "src",
             "Revinate\\GetterSetter\\test\\": "test"
         },
-        "files": [ "src/getValueFunctions.php", "src/setValueFunctions.php" ]
+        "files": [ "src/getValueFunctions.php", "src/setValueFunctions.php", "src/util/utils.php" ]
     },
     "require": {
         "php": ">=5.3.3"

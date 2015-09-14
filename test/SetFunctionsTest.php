@@ -8,9 +8,6 @@
 
 namespace Revinate\GetterSetter\test;
 
-/**
- * @codeCoverageIgnore
- */
 use Revinate\GetterSetter as gs;
 
 /**
