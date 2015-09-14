@@ -74,7 +74,7 @@ public function testExampleArrayVsObject() {
 
 ## getPathValue and setPathValue
 
-`getPathValue` and `setPathValue` provide an easy short for getting and setting nested values.  
+`getPathValue` and `setPathValue` provide an easy shortcut for getting and setting nested values.  
 
 ```json
 {
