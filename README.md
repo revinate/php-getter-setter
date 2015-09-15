@@ -25,7 +25,7 @@ To make things easier, include the follow use statement at the top of your files
 use Revinate\GetterSetter as gs;
 ```
 
-## getValue and setValue
+## get and set
 
 ### Getting a Value
 ```php
