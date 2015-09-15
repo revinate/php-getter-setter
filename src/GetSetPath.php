@@ -17,7 +17,7 @@ class GetSetPath extends GetSet implements GetSetPathInterface {
      * @return mixed
      */
     public function getPathValue($pathToField, $default = null, $pathSeparator = '.') {
-        return getPathValue($this, $pathToField, $default, $pathSeparator);
+        return get($this, $pathToField, $default, $pathSeparator);
     }
 
     /**
@@ -27,7 +27,7 @@ class GetSetPath extends GetSet implements GetSetPathInterface {
      * @return mixed
      */
     public function setPathValue($pathToField, $value, $pathSeparator = '.') {
-        return setPathValue($this, $pathToField, $value, $pathSeparator);
+        return set($this, $pathToField, $value, $pathSeparator);
     }
 
     /**

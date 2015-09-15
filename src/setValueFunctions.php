@@ -10,10 +10,26 @@ namespace Revinate\GetterSetter;
 
 
 /**
+ * @param array|object    $doc
+ * @param string|string[] $fieldPath
+ * @param mixed           $value
+ * @param string          $pathSeparator
+ * @return mixed the updated document
+ * @throws UnableToSetFieldException
+ */
+function set($doc, $fieldPath, $value, $pathSeparator = '.') {
+    $path = is_array($fieldPath) || ($fieldPath instanceof \ArrayAccess)
+        ? $fieldPath
+        : explode($pathSeparator, $fieldPath);
+    return setValueByArrayPath($doc, $path, $value);
+}
+
+/**
  * @param array|object $doc
  * @param string       $fieldName
  * @param mixed        $value
  * @return array|\ArrayAccess
+ * @throws UnableToSetFieldException
  */
 function setValue($doc, $fieldName, $value) {
     if ($doc instanceof GetSetInterface) {
@@ -55,29 +71,16 @@ function setValue($doc, $fieldName, $value) {
         return $doc;
     }
 
-    throw new \Exception("Unable to set field: '$fieldName'");
+    throw new UnableToSetFieldException("Unable to set field: '$fieldName'");
 }
 
-
-/**
- * @param array|object    $doc
- * @param string|string[] $fieldPath
- * @param mixed           $value
- * @param string          $pathSeparator
- * @return mixed the updated document
- */
-function setPathValue($doc, $fieldPath, $value, $pathSeparator = '.') {
-    $path = is_array($fieldPath) || ($fieldPath instanceof \ArrayAccess)
-        ? $fieldPath
-        : explode($pathSeparator, $fieldPath);
-    return setValueByArrayPath($doc, $path, $value);
-}
 
 /**
  * @param array|object $doc
  * @param string[]     $fieldPath
  * @param mixed        $value
  * @return mixed the updated document
+ * @throws UnableToSetFieldException
  */
 function setValueByArrayPath($doc, $fieldPath, $value) {
     $fieldPath = (array)$fieldPath;  // Force a copy if it is an ArrayObject.

@@ -15,7 +15,7 @@ class TestGetSetPath extends \PHPUnit_Framework_TestCase {
     public function testSetEmptyPath() {
         $uniqueObject = (object) array();
 
-        $this->assertEquals($uniqueObject, gs\setPathValue(array(), array(), $uniqueObject));
+        $this->assertEquals($uniqueObject, gs\set(array(), array(), $uniqueObject));
     }
 
 

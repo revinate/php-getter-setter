@@ -97,7 +97,7 @@ class SetFunctionsTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider providerSetters
-     * @expectedException        \Exception
+     * @expectedException        Revinate\GetterSetter\UnableToSetFieldException
      */
     public function testSetNonObject($nonObject) {
         gs\setValue($nonObject, 'value', 42);
@@ -105,7 +105,7 @@ class SetFunctionsTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider providerSetters
-     * @expectedException        \Exception
+     * @expectedException        Revinate\GetterSetter\UnableToGetFieldException
      */
     public function testGetNonObject($nonObject) {
         gs\getValue($nonObject, 'value');

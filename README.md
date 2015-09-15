@@ -5,16 +5,16 @@ PHP Library for simplifying getting and setting values in arrays or objects
 
 At its core, this library is composed of 3 function pairs:
 
+- `get` / `set` -- functions to get and set nested values in an array, object, or class given a field name using dot notation
 - `getValue` / `setValue` -- functions to get and set values in an array, object, or class.
-- `getPathValue` / `setPathValue` -- Similar to `getValue` and `setValue`, but allows for dot notation field names to access nested values.
-- `getValueByArrayPath` / `setValueByArrayPath` -- used by `getPathValue` and `setPathValue` to access the nested values by specifying the path in an array. 
+- `getValueByArrayPath` / `setValueByArrayPath` -- used by `get` and `set` to access the nested values by specifying the path in an array. 
 
 ## Instalation 
 Use Composer:
 
 ```json
 "require": {
-    "revinate/php-getter-setter": "~0.1"
+    "revinate/php-getter-setter": "~0.2"
 },
 ```
 
@@ -29,17 +29,17 @@ use Revinate\GetterSetter as gs;
 
 ### Getting a Value
 ```php
-$name = gs\getValue($data, 'name');
+$name = gs\get($data, 'name');
 ```
 
 ### Getting a Value with a default
 ```php
-$name = gs\getValue($data, 'count', 0);
+$name = gs\get($data, 'count', 0);
 ```
 
 ### Setting a Value
 ```php
-$updatedData = gs\setValue($data, 'count', 42);
+$updatedData = gs\set($data, 'count', 42);
 ```
 
 Here is an example unit test to give a bit more context.
@@ -47,8 +47,8 @@ Here is an example unit test to give a bit more context.
 public function testExampleJson() {
     $json = '{"name":"example","type":"json","value":22}';
     $data = json_decode($json);
-    $name = gs\getValue($data, 'name');
-    $missing = gs\getValue($data, 'missing');
+    $name = gs\get($data, 'name');
+    $missing = gs\get($data, 'missing');
     $this->assertEquals('example', $name);
     $this->assertNull($missing);
 }
@@ -64,15 +64,15 @@ public function testExampleArrayVsObject() {
     $object    = json_decode($json);
     $array     = (array)$object;
     // The object gets updated as well
-    $newObject = gs\setValue($object, 'type', 'Object');
+    $newObject = gs\set($object, 'type', 'Object');
     // Only the new array contains the update.
-    $newArray  = gs\setValue($array, 'type', 'Array');
+    $newArray  = gs\set($array, 'type', 'Array');
     $this->assertEquals($object, $newObject);
     $this->assertNotEquals($array, $newArray);
 }
 ```
 
-## getPathValue and setPathValue
+## Getting and Setting Nested Values
 
 `getPathValue` and `setPathValue` provide an easy shortcut for getting and setting nested values.  
 
@@ -93,15 +93,19 @@ Example accessing:
 ```php
 $json = $this->getEmployeeJsonData();
 $data = json_decode($json);
-$this->assertEquals('Arkansas', gs\getPathValue($data, 'address.state'));
-$this->assertNull(gs\getPathValue($data, 'address.zip'));
+$this->assertEquals('Arkansas', gs\get($data, 'address.state'));
+$this->assertNull(gs\get($data, 'address.zip'));
 ```
 
-The notation is longer than `$data->address->state`, but it will not blow up where this will `$data->address->zip`.
+The notation is longer than `$data->address->state`, but it will not blow up where this will: `$data->address->zip`.
 
-## Getters and Setters
+## Support for Getters, Setters, Has'ers, and Is'ers.
+
 
 These functions support getters, setters and magic methods use by many ORM systems like Doctrine.
+
+## Support for Magic methods like __get and __set
+
 
 Example Data Class
 ```php
@@ -128,12 +132,12 @@ public function testMagicMethods() {
     $data = new MagicAccessTestClass();
     $data->first_name = 'Joe';
     $data->last_name = 'Rock';
-    gs\setValue($data, 'profession', 'Stone cutter');
-    gs\setValue($data, 'address', new MagicAccessTestClass());
+    gs\set($data, 'profession', 'Stone cutter');
+    gs\set($data, 'address', new MagicAccessTestClass());
     gs\setPathValue($data, 'address.city', 'Little Rock');
-    $this->assertEquals('Joe', gs\getValue($data, 'first_name'));
-    $this->assertEquals('Rock', gs\getPathValue($data, 'last_name'));
-    $this->assertEquals('Little Rock', gs\getPathValue($data, 'address.city'));
+    $this->assertEquals('Joe', gs\get($data, 'first_name'));
+    $this->assertEquals('Rock', gs\get($data, 'last_name'));
+    $this->assertEquals('Little Rock', gs\get($data, 'address.city'));
 }
 ```
 

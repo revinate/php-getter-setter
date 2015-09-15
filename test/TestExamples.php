@@ -52,8 +52,8 @@ JSON;
     public function testExampleNesting() {
         $json = $this->getEmployeeJsonData();
         $data = json_decode($json);
-        $this->assertEquals('Arkansas', gs\getPathValue($data, 'address.state'));
-        $this->assertNull(gs\getPathValue($data, 'address.zip'));
+        $this->assertEquals('Arkansas', gs\get($data, 'address.state'));
+        $this->assertNull(gs\get($data, 'address.zip'));
     }
 
     public function testMagicMethods() {
@@ -62,10 +62,10 @@ JSON;
         $data->last_name = 'Rock';
         gs\setValue($data, 'profession', 'Stone cutter');
         gs\setValue($data, 'address', new MagicAccessTestClass());
-        gs\setPathValue($data, 'address.city', 'Little Rock');
+        gs\set($data, 'address.city', 'Little Rock');
         $this->assertEquals('Joe', gs\getValue($data, 'first_name'));
-        $this->assertEquals('Rock', gs\getPathValue($data, 'last_name'));
-        $this->assertEquals('Little Rock', gs\getPathValue($data, 'address.city'));
+        $this->assertEquals('Rock', gs\get($data, 'last_name'));
+        $this->assertEquals('Little Rock', gs\get($data, 'address.city'));
     }
 
 }

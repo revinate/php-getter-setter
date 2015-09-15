@@ -64,7 +64,7 @@ class GetterSetter implements GetterSetterInterface {
      * @return mixed
      */
     public function getPathValue($data, $pathToField, $default = null, $pathSeparator = '.') {
-        return gs\getPathValue($data, $pathToField, $default, $pathSeparator);
+        return gs\get($data, $pathToField, $default, $pathSeparator);
     }
 
     /**
@@ -76,6 +76,6 @@ class GetterSetter implements GetterSetterInterface {
      * @return mixed
      */
     public function setPathValue($data, $pathToField, $value, $pathSeparator = '.') {
-        return gs\setPathValue($data, $pathToField, $value, $pathSeparator);
+        return gs\set($data, $pathToField, $value, $pathSeparator);
     }
 }

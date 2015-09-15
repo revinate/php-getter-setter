@@ -11,11 +11,26 @@ namespace Revinate\GetterSetter;
 use Revinate\GetterSetter\util as util;
 
 /**
+ * @param array|object    $doc
+ * @param string|string[] $fieldPath
+ * @param mixed           $default
+ * @param string          $pathSeparator
+ * @return mixed|null
+ * @throws UnableToGetFieldException
+ */
+function get($doc, $fieldPath, $default = null, $pathSeparator = '.') {
+    $path = is_array($fieldPath) || ($fieldPath instanceof \ArrayAccess)
+        ? $fieldPath
+        : explode($pathSeparator, $fieldPath);
+    return getValueByArrayPath($doc, $path, $default);
+}
+
+/**
  * @param array|object $doc
  * @param string       $fieldName
  * @param null|mixed   $default
  * @return mixed|null
- * @throws \Exception
+ * @throws UnableToGetFieldException
  */
 function getValue($doc, $fieldName, $default = null) {
     if ($doc instanceof GetSetInterface) {
@@ -53,21 +68,7 @@ function getValue($doc, $fieldName, $default = null) {
         return $default;
     }
 
-    throw new \Exception("Unable to get field: '$fieldName'");
-}
-
-/**
- * @param array|object    $doc
- * @param string|string[] $fieldPath
- * @param mixed           $default
- * @param string          $pathSeparator
- * @return mixed|null
- */
-function getPathValue($doc, $fieldPath, $default = null, $pathSeparator = '.') {
-    $path = is_array($fieldPath) || ($fieldPath instanceof \ArrayAccess)
-        ? $fieldPath
-        : explode($pathSeparator, $fieldPath);
-    return getValueByArrayPath($doc, $path, $default);
+    throw new UnableToGetFieldException("Unable to get field: '$fieldName'");
 }
 
 /**
@@ -75,6 +76,7 @@ function getPathValue($doc, $fieldPath, $default = null, $pathSeparator = '.') {
  * @param string[]     $fieldPath
  * @param mixed        $default
  * @return mixed|null
+ * @throws UnableToGetFieldException
  */
 function getValueByArrayPath($doc, $fieldPath, $default = null) {
     $notFound = (object) array();
