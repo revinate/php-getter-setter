@@ -11,6 +11,9 @@ namespace Revinate\GetterSetter;
 use Revinate\GetterSetter as gs;
 
 class GetterSetter implements GetterSetterInterface {
+
+    protected $pathSeparator = '.';
+
     /**
      * @description Gets the value for the field $fieldName.
      * @param array|object $data
@@ -60,10 +63,11 @@ class GetterSetter implements GetterSetterInterface {
      * @param array|object $data
      * @param string|array $pathToField
      * @param null|mixed   $default
-     * @param string       $pathSeparator
+     * @param string|null  $pathSeparator Optional path separator.
      * @return mixed
      */
-    public function getPathValue($data, $pathToField, $default = null, $pathSeparator = '.') {
+    public function get($data, $pathToField, $default = null, $pathSeparator = null) {
+        $pathSeparator = $pathSeparator ?: $this->pathSeparator;
         return gs\get($data, $pathToField, $default, $pathSeparator);
     }
 
@@ -75,7 +79,24 @@ class GetterSetter implements GetterSetterInterface {
      * @param string       $pathSeparator
      * @return mixed
      */
-    public function setPathValue($data, $pathToField, $value, $pathSeparator = '.') {
+    public function set($data, $pathToField, $value, $pathSeparator = null) {
+        $pathSeparator = $pathSeparator ?: $this->pathSeparator;
         return gs\set($data, $pathToField, $value, $pathSeparator);
     }
+
+    /**
+     * @return string
+     */
+    public function getPathSeparator() {
+        return $this->pathSeparator;
+    }
+
+    /**
+     * @param string $pathSeparator
+     */
+    public function setPathSeparator($pathSeparator) {
+        $this->pathSeparator = $pathSeparator;
+    }
+
+
 }

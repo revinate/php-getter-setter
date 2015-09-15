@@ -53,7 +53,7 @@ interface GetterSetterInterface {
      * @param string $pathSeparator
      * @return mixed - the updated $data array or object.
      */
-    public function getPathValue($data, $pathToField, $default = null, $pathSeparator = '.');
+    public function get($data, $pathToField, $default = null, $pathSeparator = '.');
 
     /**
      * @description Sets the field value based upon the path.
@@ -63,5 +63,5 @@ interface GetterSetterInterface {
      * @param string $pathSeparator
      * @return mixed - the updated $data array or object.
      */
-    public function setPathValue($data, $pathToField, $value, $pathSeparator = '.');
+    public function set($data, $pathToField, $value, $pathSeparator = '.');
 }
