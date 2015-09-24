@@ -25,5 +25,5 @@
                 <directory>test</directory>
             </exclude>
         </whitelist>
-    </filter> -->
+    </filter>
 </phpunit>

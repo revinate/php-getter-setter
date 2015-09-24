@@ -86,29 +86,84 @@ class SetFunctionsTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function providerNonObjects() {
-        array(
+        return array(
             array(1),
             array(9.2),
             array('hello'),
-            array(null),
+            array(true),
+            array(false),
             array(function(){}),
         );
     }
 
     /**
-     * @dataProvider providerSetters
-     * @expectedException        Revinate\GetterSetter\UnableToSetFieldException
+     * @param $nonObject
+     * @dataProvider providerNonObjects
+     * @expectedException        \Revinate\GetterSetter\UnableToSetFieldException
      */
     public function testSetNonObject($nonObject) {
         gs\setValue($nonObject, 'value', 42);
     }
 
     /**
+     * @param $nonObject
      * @dataProvider providerSetters
-     * @expectedException        Revinate\GetterSetter\UnableToGetFieldException
+     * @expectedException        \Revinate\GetterSetter\UnableToGetFieldException
      */
     public function testGetNonObject($nonObject) {
         gs\getValue($nonObject, 'value');
     }
 
+    public function testSetNullField() {
+        $doc = array(
+            'location' => null,
+            'info' => array(
+                'companyName' => null,
+                'address' => null,
+                'extra' => null,
+            ),
+        );
+
+        $this->assertEquals(
+            array(
+                'location' => array('lat'=>55.6, 'lon'=>-0.6),
+                'info' => array(
+                    'companyName' => null,
+                    'address' => null,
+                    'extra' => null,
+                ),
+            ),
+            gs\set(gs\set($doc, 'location.lat', 55.6), 'location.lon', -0.6)
+        );
+
+        $this->assertEquals(
+            array(
+                'location' => null,
+                'info' => array(
+                    'companyName' => null,
+                    'address' => null,
+                    'extra' => array(
+                        'level1' => array(
+                            'level2' => 'level2',
+                        )
+                    ),
+                ),
+            ),
+            gs\set($doc, 'info.extra.level1.level2', 'level2')
+        );
+    }
+
+    public function testSetNull() {
+        $this->assertEquals(
+            array(
+                'name'=>array('first'=>'Joe')
+            ),
+            gs\set(null, 'name.first', 'Joe')
+        );
+
+        $this->assertEquals(
+            array('name.first'=>'Joe'),
+            gs\setValue(null, 'name.first', 'Joe')
+        );
+    }
 }

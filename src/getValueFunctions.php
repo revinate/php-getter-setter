@@ -68,6 +68,11 @@ function getValue($doc, $fieldName, $default = null) {
         return $default;
     }
 
+    // Special case for null, we want to return the default in this case.
+    if (is_null($doc)) {
+        return $default;
+    }
+
     throw new UnableToGetFieldException("Unable to get field: '$fieldName'");
 }
 

@@ -90,4 +90,25 @@ class GetFunctionsTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull(gs\getValue($testClass, 'a', $notFound));
     }
 
+    public function testNull() {
+        $notFound = (object) array();
+        $this->assertEquals($notFound, gs\getValue(null, 'name', $notFound));
+    }
+
+    public function testNullFields() {
+        $doc = array(
+            'location' => null,
+            'info' => array(
+                'companyName' => null,
+                'address' => null,
+                'extra' => null,
+            ),
+        );
+
+        $notFound = (object) array();
+        $this->assertEquals($notFound, gs\get($doc, 'location.lat', $notFound));
+        $this->assertNull(gs\get($doc, 'location', $notFound));
+    }
+
+
 }

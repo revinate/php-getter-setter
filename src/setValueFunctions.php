@@ -35,12 +35,15 @@ function setValue($doc, $fieldName, $value) {
     if ($doc instanceof GetSetInterface) {
         return $doc->setValue($fieldName, $value);
     }
+    if (is_null($doc)) {
+        $doc = array();
+    }
     if (is_array($doc) || $doc instanceof \ArrayAccess) {
         $doc[$fieldName] = $value;
         return $doc;
     }
 
-    if (is_object($doc)) {
+    if (is_object($doc) && ! $doc instanceof \Closure) {
         // Does the property exist?
         $fields = get_object_vars($doc);
         if (array_key_exists($fieldName, $fields)) {
@@ -87,6 +90,8 @@ function setValueByArrayPath($doc, $fieldPath, $value) {
     if (empty($fieldPath)) {
         return $value;
     }
+    // Special case for nulls, treat them like empty arrays.
+    $doc = is_null($doc) ? array() : $doc;
     $fieldName = array_shift($fieldPath);
     $subDoc = getValue($doc, $fieldName, array());
     $subDocUpdated = setValueByArrayPath($subDoc, $fieldPath, $value);
