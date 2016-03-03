@@ -95,5 +95,8 @@ function setValueByArrayPath($doc, $fieldPath, $value) {
     $fieldName = array_shift($fieldPath);
     $subDoc = getValue($doc, $fieldName, array());
     $subDocUpdated = setValueByArrayPath($subDoc, $fieldPath, $value);
-    return setValue($doc, $fieldName, $subDocUpdated);
+    if ($subDocUpdated !== $subDoc) {
+        $doc = setValue($doc, $fieldName, $subDocUpdated);
+    }
+    return $doc;
 }
