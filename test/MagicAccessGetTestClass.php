@@ -9,9 +9,10 @@
 namespace Revinate\GetterSetter\test;
 
 
-class MagicAccessGetTestClass {
+class MagicAccessGetTestClass
+{
 
-    protected $values = array();
+    protected $values = [];
 
     /**
      * is utilized for reading data from inaccessible members.
@@ -20,11 +21,8 @@ class MagicAccessGetTestClass {
      * @return mixed
      * @link http://php.net/manual/en/language.oop5.overloading.php#language.oop5.overloading.members
      */
-    function __get($name) {
-        if (isset($this->values[$name])) {
-            return $this->values[$name];
-        }
-        return null;
+    public function __get($name) {
+        return $this->values[$name] ?? null;
     }
 
     /**
@@ -35,7 +33,7 @@ class MagicAccessGetTestClass {
      * @return void
      * @link http://php.net/manual/en/language.oop5.overloading.php#language.oop5.overloading.members
      */
-    function __set($name, $value) {
+    public function __set($name, $value) {
         $this->values[$name] = $value;
     }
 

@@ -9,16 +9,19 @@
 namespace Revinate\GetterSetter;
 
 
+use ArrayAccess;
+use Closure;
+
 /**
- * @param array|object    $doc
+ * @param array|object $doc
  * @param string|string[] $fieldPath
- * @param mixed           $value
- * @param string          $pathSeparator
+ * @param mixed $value
+ * @param string $pathSeparator
  * @return mixed the updated document
  * @throws UnableToSetFieldException
  */
 function set($doc, $fieldPath, $value, $pathSeparator = '.') {
-    $path = is_array($fieldPath) || ($fieldPath instanceof \ArrayAccess)
+    $path = is_array($fieldPath) || ($fieldPath instanceof ArrayAccess)
         ? $fieldPath
         : explode($pathSeparator, $fieldPath);
     return setValueByArrayPath($doc, $path, $value);
@@ -26,24 +29,24 @@ function set($doc, $fieldPath, $value, $pathSeparator = '.') {
 
 /**
  * @param array|object $doc
- * @param string       $fieldName
- * @param mixed        $value
- * @return array|\ArrayAccess
+ * @param string $fieldName
+ * @param mixed $value
+ * @return array|ArrayAccess
  * @throws UnableToSetFieldException
  */
 function setValue($doc, $fieldName, $value) {
     if ($doc instanceof GetSetInterface) {
         return $doc->setValue($fieldName, $value);
     }
-    if (is_null($doc)) {
-        $doc = array();
+    if ($doc === null) {
+        $doc = [];
     }
-    if (is_array($doc) || $doc instanceof \ArrayAccess) {
+    if (is_array($doc) || $doc instanceof ArrayAccess) {
         $doc[$fieldName] = $value;
         return $doc;
     }
 
-    if (is_object($doc) && ! $doc instanceof \Closure) {
+    if (is_object($doc) && !$doc instanceof Closure) {
         // Does the property exist?
         $fields = get_object_vars($doc);
         if (array_key_exists($fieldName, $fields)) {
@@ -59,9 +62,10 @@ function setValue($doc, $fieldName, $value) {
 
         // Try using setters
         $fieldNameCamel = util\toCamelCase($fieldName);
-        $setters = array(
-            'set'.$fieldNameCamel, $fieldName,
-        );
+        $setters = [
+            'set' . $fieldNameCamel,
+            $fieldName,
+        ];
         foreach ($setters as $methodName) {
             if (method_exists($doc, $methodName)) {
                 $doc->{$methodName}($value);
@@ -80,8 +84,8 @@ function setValue($doc, $fieldName, $value) {
 
 /**
  * @param array|object $doc
- * @param string[]     $fieldPath
- * @param mixed        $value
+ * @param string[] $fieldPath
+ * @param mixed $value
  * @return mixed the updated document
  * @throws UnableToSetFieldException
  */
@@ -91,9 +95,9 @@ function setValueByArrayPath($doc, $fieldPath, $value) {
         return $value;
     }
     // Special case for nulls, treat them like empty arrays.
-    $doc = is_null($doc) ? array() : $doc;
+    $doc = $doc === null ? [] : $doc;
     $fieldName = array_shift($fieldPath);
-    $subDoc = getValue($doc, $fieldName, array());
+    $subDoc = getValue($doc, $fieldName, []);
     $subDocUpdated = setValueByArrayPath($subDoc, $fieldPath, $value);
     if ($subDocUpdated !== $subDoc) {
         $doc = setValue($doc, $fieldName, $subDocUpdated);

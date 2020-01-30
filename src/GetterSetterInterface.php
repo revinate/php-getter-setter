@@ -9,12 +9,13 @@
 namespace Revinate\GetterSetter;
 
 
-interface GetterSetterInterface {
+interface GetterSetterInterface
+{
     /**
      * @description Gets the value for the field $fieldName.
      * @param array|object $data
-     * @param string       $fieldName
-     * @param null         $default
+     * @param string $fieldName
+     * @param null $default
      * @return mixed
      */
     public function getValue($data, $fieldName, $default = null);
@@ -22,8 +23,8 @@ interface GetterSetterInterface {
     /**
      * @description Sets the value for the field $fieldName
      * @param array|object $data
-     * @param string       $fieldName
-     * @param mixed        $value
+     * @param string $fieldName
+     * @param mixed $value
      * @return mixed - the updated $data array or object.
      */
     public function setValue($data, $fieldName, $value);
@@ -31,8 +32,8 @@ interface GetterSetterInterface {
     /**
      * @description Gets the field value based upon the path.
      * @param array|object $data
-     * @param array        $pathToField
-     * @param null|mixed   $default
+     * @param array $pathToField
+     * @param null|mixed $default
      * @return mixed
      */
     public function getValueByArrayPath($data, $pathToField, $default = null);
@@ -40,8 +41,8 @@ interface GetterSetterInterface {
     /**
      * @description Sets the field value based upon the path.
      * @param array|object $data
-     * @param array        $pathToField
-     * @param mixed        $value
+     * @param array $pathToField
+     * @param mixed $value
      */
     public function setValueByArrayPath($data, $pathToField, $value);
 
@@ -49,7 +50,7 @@ interface GetterSetterInterface {
      * @description Gets the field value based upon the path.
      * @param array|object $data
      * @param string|array $pathToField
-     * @param null|mixed   $default
+     * @param null|mixed $default
      * @param string $pathSeparator
      * @return mixed - the updated $data array or object.
      */
@@ -59,7 +60,7 @@ interface GetterSetterInterface {
      * @description Sets the field value based upon the path.
      * @param array|object $data
      * @param string|array $pathToField
-     * @param mixed   $value
+     * @param mixed $value
      * @param string $pathSeparator
      * @return mixed - the updated $data array or object.
      */

@@ -13,7 +13,6 @@ namespace Revinate\GetterSetter\util;
  * @param string $string
  * @return string
  */
-function toCamelCase($string)
-{
-    return strtr(ucwords(strtr($string, array('_' => ' '))), array(' ' => ''));
+function toCamelCase($string) {
+    return strtr(ucwords(strtr($string, ['_' => ' '])), [' ' => '']);
 }

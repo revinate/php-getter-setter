@@ -8,9 +8,11 @@
 
 namespace Revinate\GetterSetter\test;
 
+use PHPUnit\Framework\TestCase;
 use Revinate\GetterSetter as gs;
 
-class TestExamples extends \PHPUnit_Framework_TestCase {
+class TestExamples extends TestCase
+{
     public function testExampleJson() {
         $json = '{"name":"example","type":"json","value":22}';
         $data = json_decode($json);
@@ -21,13 +23,13 @@ class TestExamples extends \PHPUnit_Framework_TestCase {
     }
 
     public function testExampleArrayVsObject() {
-        $json      = '{"name":"example","type":"json","value":22}';
-        $object    = json_decode($json);
-        $array     = (array)$object;
+        $json = '{"name":"example","type":"json","value":22}';
+        $object = json_decode($json);
+        $array = (array)$object;
         // The object gets updated as well
         $newObject = gs\setValue($object, 'type', 'Object');
         // Only the new array contains the update.
-        $newArray  = gs\setValue($array, 'type', 'Array');
+        $newArray = gs\setValue($array, 'type', 'Array');
         $this->assertEquals($object, $newObject);
         $this->assertNotEquals($array, $newArray);
     }
@@ -45,7 +47,6 @@ class TestExamples extends \PHPUnit_Framework_TestCase {
     "profession":"Stone cutter"
 }
 JSON;
-
     }
 
 
