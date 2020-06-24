@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
+
 /**
  * Created by PhpStorm.
  * User: jasondent
@@ -8,23 +9,18 @@
 
 namespace Revinate\GetterSetter\test;
 
+use PHPUnit\Framework\TestCase;
 use Revinate\GetterSetter as gs;
 
-class TestGetSetPath extends \PHPUnit_Framework_TestCase {
+class GetSetPathTest extends TestCase
+{
 
     public function testSetEmptyPath() {
-        $uniqueObject = (object) array();
+        $uniqueObject = (object)[];
 
-        $this->assertEquals($uniqueObject, gs\set(array(), array(), $uniqueObject));
+        $this->assertEquals($uniqueObject, gs\set([], [], $uniqueObject));
     }
 
-
-    /**
-     * @covers Revinate\GetterSetter\GetSetPath::setPathValue
-     * @covers Revinate\GetterSetter\GetSetPath::getPathValue
-     * @covers Revinate\GetterSetter\GetSetPath::getByArrayPath
-     * @covers Revinate\GetterSetter\GetSetPath::setByArrayPath
-     */
     public function testGetSetPathClass() {
         $gsp = new gs\GetSetPath();
 

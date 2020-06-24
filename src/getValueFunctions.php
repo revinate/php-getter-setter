@@ -8,18 +8,19 @@
 
 namespace Revinate\GetterSetter;
 
-use Revinate\GetterSetter\util as util;
+use ArrayAccess;
+use Revinate\GetterSetter\util;
 
 /**
- * @param array|object    $doc
+ * @param array|object $doc
  * @param string|string[] $fieldPath
- * @param mixed           $default
- * @param string          $pathSeparator
+ * @param mixed $default
+ * @param string $pathSeparator
  * @return mixed|null
  * @throws UnableToGetFieldException
  */
 function get($doc, $fieldPath, $default = null, $pathSeparator = '.') {
-    $path = is_array($fieldPath) || ($fieldPath instanceof \ArrayAccess)
+    $path = (is_array($fieldPath) || ($fieldPath instanceof ArrayAccess))
         ? $fieldPath
         : explode($pathSeparator, $fieldPath);
     return getValueByArrayPath($doc, $path, $default);
@@ -27,8 +28,8 @@ function get($doc, $fieldPath, $default = null, $pathSeparator = '.') {
 
 /**
  * @param array|object $doc
- * @param string       $fieldName
- * @param null|mixed   $default
+ * @param string $fieldName
+ * @param null|mixed $default
  * @return mixed|null
  * @throws UnableToGetFieldException
  */
@@ -36,8 +37,11 @@ function getValue($doc, $fieldName, $default = null) {
     if ($doc instanceof GetSetInterface) {
         return $doc->getValue($fieldName, $default);
     }
-    if (is_array($doc) || $doc instanceof \ArrayAccess) {
-        return (isset($doc[$fieldName]) || array_key_exists($fieldName, $doc)) ? $doc[$fieldName] : $default;
+    if (is_array($doc)) {
+        return isset($doc[$fieldName]) || array_key_exists($fieldName, $doc) ? $doc[$fieldName] : $default;
+    }
+    if ($doc instanceof ArrayAccess) {
+        return isset($doc[$fieldName]) || property_exists($doc, $fieldName) ? $doc[$fieldName] : $default;
     }
     if (is_object($doc)) {
         if (isset($doc->{$fieldName})) {
@@ -51,9 +55,13 @@ function getValue($doc, $fieldName, $default = null) {
 
         // Try using getters
         $fieldNameCamel = util\toCamelCase($fieldName);
-        $getters = array(
-            $fieldName, 'get'.$fieldNameCamel, 'is'.$fieldNameCamel, 'has'.$fieldNameCamel, $fieldNameCamel
-        );
+        $getters = [
+            $fieldName,
+            'get' . $fieldNameCamel,
+            'is' . $fieldNameCamel,
+            'has' . $fieldNameCamel,
+            $fieldNameCamel
+        ];
         foreach ($getters as $methodName) {
             if (method_exists($doc, $methodName)) {
                 return $doc->{$methodName}();
@@ -61,7 +69,7 @@ function getValue($doc, $fieldName, $default = null) {
         }
 
         // Try the magic methods __get when __isset doesn't exist
-        if (method_exists($doc, '__get') && ! method_exists($doc, '__isset')) {
+        if (method_exists($doc, '__get') && !method_exists($doc, '__isset')) {
             return $doc->{$fieldName};
         }
 
@@ -69,7 +77,7 @@ function getValue($doc, $fieldName, $default = null) {
     }
 
     // Special case for null, we want to return the default in this case.
-    if (is_null($doc)) {
+    if ($doc === null) {
         return $default;
     }
 
@@ -78,13 +86,13 @@ function getValue($doc, $fieldName, $default = null) {
 
 /**
  * @param array|object $doc
- * @param string[]     $fieldPath
- * @param mixed        $default
+ * @param string[] $fieldPath
+ * @param mixed $default
  * @return mixed|null
  * @throws UnableToGetFieldException
  */
 function getValueByArrayPath($doc, $fieldPath, $default = null) {
-    $notFound = (object) array();
+    $notFound = (object)[];
     $value = $doc;
 
     foreach ($fieldPath as $fieldName) {

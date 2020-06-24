@@ -9,5 +9,8 @@
 namespace Revinate\GetterSetter;
 
 
-class UnableToGetFieldException extends \Exception {
+use Exception;
+
+class UnableToGetFieldException extends Exception
+{
 }

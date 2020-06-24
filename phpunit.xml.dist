@@ -1,11 +1,11 @@
 <phpunit
-    beStrictAboutOutputDuringTests="true"
-    beStrictAboutTestSize="false"
-    beStrictAboutTestsThatDoNotTestAnything="true"
-    bootstrap="vendor/autoload.php"
-    mapTestClassNameToCoveredClassName="false"
-    colors="true"
-    verbose="true"
+        beStrictAboutOutputDuringTests="true"
+        beStrictAboutTestSize="false"
+        beStrictAboutTestsThatDoNotTestAnything="true"
+        bootstrap="vendor/autoload.php"
+        mapTestClassNameToCoveredClassName="false"
+        colors="true"
+        verbose="true"
 >
     <testsuites>
         <testsuite name="GetterSetter">
@@ -14,7 +14,7 @@
     </testsuites>
 
     <logging>
-        <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="90" />
+        <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="90"/>
     </logging>
 
     <filter>

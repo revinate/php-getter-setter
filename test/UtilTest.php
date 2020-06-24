@@ -8,16 +8,18 @@
 
 namespace Revinate\GetterSetter\test;
 
-use Revinate\GetterSetter\util as util;
+use PHPUnit\Framework\TestCase;
+use Revinate\GetterSetter\util;
 
-class UtilTest extends \PHPUnit_Framework_TestCase {
+class UtilTest extends TestCase
+{
 
     public function providerTestCamel() {
-        return array(
-            array('FirstLetter', 'firstLetter'),
-            array('HelloThere', 'hello_there'),
-            array('NiceDay', 'nice day'),
-        );
+        return [
+            ['FirstLetter', 'firstLetter'],
+            ['HelloThere', 'hello_there'],
+            ['NiceDay', 'nice day'],
+        ];
     }
 
     /**

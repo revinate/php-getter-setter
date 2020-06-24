@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
+
 /**
  * Created by PhpStorm.
  * User: jasondent
@@ -9,43 +10,45 @@
 namespace Revinate\GetterSetter\test;
 
 
+use PHPUnit\Framework\TestCase;
 use Revinate\GetterSetter\GetterSetter;
 
-class GetterSetterTest extends \PHPUnit_Framework_TestCase {
+class GetterSetterTest extends TestCase
+{
 
     /**
      * @return object
      * @codeCoverageIgnore
      */
     protected function getData() {
-        return (object) array(
-            'a' => array(
+        return (object)[
+            'a' => [
                 'aa' => 'aa',
                 'ab' => 'ab',
-            ),
-            'b' => array(
-                'ba' => (object) array(
+            ],
+            'b' => [
+                'ba' => (object)[
                     'baa' => 'baa',
                     'bab' => 'bab',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public function testGetSetValue() {
         $gs = new GetterSetter();
         $dataObj = $this->getData();
 
-        $dataObj2 = $gs->setValue($dataObj, 'c', array('ca' => 'ca'));
+        $dataObj2 = $gs->setValue($dataObj, 'c', ['ca' => 'ca']);
         $this->assertEquals($dataObj2, $dataObj);
 
         $gs->set($dataObj, 'a.a', 'a.a');
-        $gs->setValueByArrayPath($dataObj, array('a','c'), 'a.c');
+        $gs->setValueByArrayPath($dataObj, ['a', 'c'], 'a.c');
         $this->assertEquals('a.a', $gs->get($dataObj, 'a.a'));
         $this->assertEquals('a.c', $gs->get($dataObj, 'a.c'));
-        $this->assertEquals(null, $gs->getValueByArrayPath($dataObj, array('a','b')));
-        $this->assertEquals('ab', $gs->getValueByArrayPath($dataObj, array('a','ab')));
-        $this->assertEquals('a.c', $gs->getValueByArrayPath($dataObj, array('a','c')));
+        $this->assertEquals(null, $gs->getValueByArrayPath($dataObj, ['a', 'b']));
+        $this->assertEquals('ab', $gs->getValueByArrayPath($dataObj, ['a', 'ab']));
+        $this->assertEquals('a.c', $gs->getValueByArrayPath($dataObj, ['a', 'c']));
 
         $this->assertEquals($dataObj->b, $gs->getValue($dataObj, 'b'));
     }

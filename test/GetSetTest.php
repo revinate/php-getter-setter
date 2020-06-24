@@ -9,13 +9,15 @@
 namespace Revinate\GetterSetter\test;
 
 
+use PHPUnit\Framework\TestCase;
 use Revinate\GetterSetter\GetSet;
 
-class GetSetTest extends \PHPUnit_Framework_TestCase {
+class GetSetTest extends TestCase
+{
 
     public function testGetSet() {
         $gs = new GetSet();
-        $notFound = (object)array();
+        $notFound = (object)[];
 
         $this->assertEquals($notFound, $gs->getValue('a', $notFound));
 

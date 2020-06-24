@@ -9,12 +9,13 @@
 namespace Revinate\GetterSetter;
 
 
-interface GetSetInterface {
+interface GetSetInterface
+{
 
     /**
      * @description Gets the value for the field $fieldName.
      * @param string $fieldName
-     * @param null   $default
+     * @param null $default
      * @return mixed
      */
     public function getValue($fieldName, $default = null);

@@ -13,27 +13,28 @@ namespace Revinate\GetterSetter\test;
  * @package Revinate\GetterSetter\test
  * @codeCoverageIgnore
  */
-class AccessTestClass {
+class AccessTestClass
+{
 
-    public    $isPublic    = true;
+    public $isPublic = true;
     protected $isProtected = true;
-    private   $isPrivate   = true;
+    private $isPrivate = true;
 
-    public    $isNotPrivate = true;
-    protected $isNotPublic  = true;
+    public $isNotPrivate = true;
+    protected $isNotPublic = true;
 
-    public    $public    = 'public';
+    public $public = 'public';
     protected $protected = 'protected';
-    private   $private   = 'private';
+    private $private = 'private';
 
-    public    $nullValue          = null;
+    public $nullValue = null;
     protected $nullValueProtected = null;
 
-    private   $methodGetterSetterValue = 'method';
+    private $methodGetterSetterValue = 'method';
 
-    public    $public_string_value    = 'public_string_value';
+    public $public_string_value = 'public_string_value';
     protected $protected_string_value = 'protected_string_value';
-    private   $private_string_value   = 'private_string_value';
+    private $private_string_value = 'private_string_value';
 
     /**
      * @return boolean
@@ -180,7 +181,7 @@ class AccessTestClass {
      */
     public function methodGetterSetter() {
         $args = func_get_args();
-        if (! empty($args)) {
+        if (!empty($args)) {
             $this->methodGetterSetterValue = $args[0];
         }
         return $this->methodGetterSetterValue;
