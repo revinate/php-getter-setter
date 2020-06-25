@@ -41,7 +41,7 @@ function getValue($doc, $fieldName, $default = null) {
         return isset($doc[$fieldName]) || array_key_exists($fieldName, $doc) ? $doc[$fieldName] : $default;
     }
     if ($doc instanceof ArrayAccess) {
-        return isset($doc[$fieldName]) || property_exists($doc, $fieldName) ? $doc[$fieldName] : $default;
+        return isset($doc[$fieldName]) || $doc->offsetExists($fieldName) ? $doc[$fieldName] : $default;
     }
     if (is_object($doc)) {
         if (isset($doc->{$fieldName})) {
